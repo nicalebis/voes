@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Main Trials</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="probes_data_manager.js"></script>
+  <script src="common_functions.js"></script>
+</head>
+<style>
+  .video-container {
+    display: inline-block;
+    position: relative;
+    width: 960px;
+    height: 540px;
+    overflow: hidden;
+  }
+</style>
+<body style="background-color:grey;">
+  <div class="video-container main" id="mainTrialVideoContainer" width="640" height="360">
+    <video id="mainTrialVideo" width="960" height="540">
+      <source src="videos/S5U.mp4" type="video/mp4">
+    </video>
+    <div id="probe" class="probe" style="display: none;"></div>
+  </div>
+  <button id="startExperiment">Start Experiment</button>
+  <button id="finishExperiment" style="display: none;">Finish Experiment</button>
+
+  <script>
+    let currentVideoIndex = 0;
+    const mainTrialVideoContainer = document.getElementById("mainTrialVideoContainer");
+    const mainTrialVideo = document.getElementById("mainTrialVideo");
+    const startExperimentButton = document.getElementById("startExperiment");
+    const finishExperimentButton = document.getElementById("finishExperiment");
+    let videoStartTime = 0;
+
+    const mainTrialData = [
+      { trialType: "Social", outcome: "Unexpected", scene: "S5" },
+      { trialType: "Physical", outcome: "Expected", scene: "P1" },
+      { trialType: "Social", outcome: "Unexpected", scene: "S1" },
+      { trialType: "Physical", outcome: "Expected", scene: "P4" },
+    ];
+
+    const videoSources = [
+      "videos/S5U.mp4",
+      "videos/P1E.mp4",
+      "videos/S1U.mp4",
+      "videos/P4E.mp4",
+    ];
+
+    mainTrialVideo.src = videoSources[currentVideoIndex];
+
+    mainTrialVideo.addEventListener("playing", function() {
+      videoStartTime = new Date().getTime();
+      console.log("Video started playing at:", videoStartTime);
+      // Record the start time of the video, trial ID, and other necessary data here
+    });
+
+    function nextVideo() {
+      currentVideoIndex++;
+      if (currentVideoIndex >= videoSources.length) {
+currentVideoIndex = 0;
+// Proceed to the next part of the experiment (e.g., main_trials_2.html)
+window.location.href = "attention_check_1.html";
+}
+ mainTrialVideo.src = videoSources[currentVideoIndex];
+  mainTrialVideo.load();
+  mainTrialVideo.play();
+}
+
+mainTrialVideo.addEventListener("ended", function() {
+  console.log("Video ended. Advancing to next video.");
+  nextVideo();
+});
+
+    function showProbe() {
+      const probe = document.getElementById("probe");
+      const quadrants = ["top-left", "top-right", "bottom-left", "bottom-right"];
+      const randomQuadrant = quadrants[Math.floor(Math.random() * quadrants.length)];
+
+      probe.className = `probe ${randomQuadrant}`;
+      probe.style.display = "block";
+      const probeShownTime = new Date().getTime();
+
+      setTimeout(() => {
+        probe.style.display = "none";
+      }, 1000); // Hide the probe after 1 second
+
+      return probeShownTime;
+    }
+
+    function scheduleProbe() {
+      const interval = Math.random() * 2000 + 2000; // Random interval between 2-4 seconds (2000-4000ms)
+      setTimeout(() => {
+        const probeShownTime = showProbe();
+        dataManager.addProbeData(probeShownTime, mainTrialVideo.currentTime);
+        scheduleProbe();
+      }, interval);
+    }
+
+    document.addEventListener("keydown", function (event) {
+      if (event.code === "Space") {
+        const currentTime = new Date().getTime();
+        console.log("Spacebar pressed at:", currentTime);
+        dataManager.addKeyPressData(currentTime, mainTrialVideo.currentTime);
+      }
+    });
+
+    // ... (existing code)
+
+    startExperimentButton.addEventListener("click", function() {
+      startExperimentButton.style.display = "none";
+      mainTrialVideo.play();
+      scheduleProbe();
+    });
+
+    // ... (existing code)
+  </script>
+</body>
+</html>

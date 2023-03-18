@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Trial Instructions</title>
+  <link href="https://vjs.zencdn.net/7.11.4/video-js.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
+</head>
+<body style="background-color:grey;">
+  <h1>Training Trial Instructions</h1>
+  <button id="startContinueButton">Start</button>
+
+  <script>
+    const startContinueButton = document.getElementById("startContinueButton");
+
+    startContinueButton.addEventListener("click", () => {
+        window.location.href = "training_trial_1.html";
+      }
+    );
+
+    exampleVideo.addEventListener("ended", () => {
+      startContinueButton.textContent = "Continue";
+    });
+  </script>
+</body>
+</html>

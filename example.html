@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Example</title>
+  <link href="https://vjs.zencdn.net/7.11.4/video-js.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
+</head>
+<body>
+  <h1>Example</h1>
+  <div class="video-container example">
+    <video id="exampleVideo" width="960" height="540">
+      <source src="videos/P1E.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <button id="startContinueButton">Start</button>
+
+  <script>
+    const exampleVideo = document.getElementById("exampleVideo");
+    const startContinueButton = document.getElementById("startContinueButton");
+
+    startContinueButton.addEventListener("click", () => {
+      if (exampleVideo.paused) {
+        exampleVideo.play();
+      } else {
+        window.location.href = "training_trial_1.html";
+      }
+    });
+
+    exampleVideo.addEventListener("ended", () => {
+      startContinueButton.textContent = "Continue";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attention Check 2</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="data_manager.js"></script>
+  <script src="ball.js"></script>
+  <script src="common_functions.js"></script>
+</head>
+<body style="background-color:grey;">
+  <h1>Attention Check 2</h1>
+  <div class="attention-check">
+    <canvas id="attentionCheckCanvas" width="640" height="360"></canvas>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const canvas = document.getElementById("attentionCheckCanvas");
+      const ctx = canvas.getContext("2d");
+      
+    function detectCollision(ball1, ball2) {
+        const dx = ball1.x - ball2.x;
+        const dy = ball1.y - ball2.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        return distance < ball1.radius + ball2.radius;
+      }
+
+      const ball1 = new Ball(100, 100, 20, 2, 3, "red");
+      const ball2 = new Ball(200, 200, 20, -2, -3, "blue");
+      const ball3 = new Ball(300, 150, 20, 3, 2, "green");
+      const balls = [ball1, ball2, ball3];
+
+      const colors = ["red", "blue", "green"];
+
+      function changeColor(ball) {
+        const currentColorIndex = colors.indexOf(ball.color);
+        let newColorIndex;
+
+        do {
+          newColorIndex = Math.floor(Math.random() * colors.length);
+        } while (newColorIndex === currentColorIndex);
+
+        ball.color = colors[newColorIndex];
+      }
+
+      document.addEventListener("keydown", function (event) {
+  if (event.code === "Space") {
+    const currentTime = new Date().getTime();
+    console.log("Spacebar pressed at:", currentTime);
+
+    if (lastCollisionTime !== null) {
+      const reactionTime = currentTime - lastCollisionTime;
+      console.log("Reaction time:", reactionTime);
+      dataManager.addAttentionCheckData("collision", lastCollisionTime, reactionTime);
+    }
+
+    lastCollisionTime = null;
+  }
+});
+
+      let lastCollisionTime = null;
+
+    function task1() {
+  for (let i = 0; i < balls.length; i++) {
+    for (let j = i + 1; j < balls.length; j++) {
+      const dx = balls[i].x - balls[j].x;
+      const dy = balls[i].y - balls[j].y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      if (distance < balls[i].radius + balls[j].radius) {
+        lastCollisionTime = new Date().getTime();
+        console.log("Task 1: Collision detected");
+        if (Math.random() < 1 / 3) {
+          changeColor(balls[i]);
+          changeColor(balls[j]);
+        }
+      }
+    }
+  }
+}
+
+
+
+      function resolveCollision(ball1, ball2) {
+  const dx = ball2.x - ball1.x;
+  const dy = ball2.y - ball1.y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  if (distance < ball1.radius + ball2.radius) {
+    // Calculate the unit vector of the collision normal
+    const nx = dx / distance;
+    const ny = dy / distance;
+
+    // Calculate the relative velocity of the balls
+    const dvx = ball2.dx - ball1.dx;
+    const dvy = ball2.dy - ball1.dy;
+    const dotProduct = dvx * nx + dvy * ny;
+
+    // Calculate the impulse scalar
+    const mass1 = Math.PI * ball1.radius ** 2;
+    const mass2 = Math.PI * ball2.radius ** 2;
+    const impulse = (2 * dotProduct) / (mass1 + mass2);
+
+    // Apply the impulse to the velocities
+    ball1.dx += impulse * nx * mass2;
+    ball1.dy += impulse * ny * mass2;
+    ball2.dx -= impulse * nx * mass1;
+    ball2.dy -= impulse * ny * mass1;
+
+    // Separate the balls along the collision normal
+    const overlap = ball1.radius + ball2.radius - distance;
+    ball1.x -= overlap * nx * 0.5;
+    ball1.y -= overlap * ny * 0.5;
+    ball2.x += overlap * nx * 0.5;
+    ball2.y += overlap * ny * 0.5;
+  }
+}
+
+    let attentionCheckTask = 1; // Set the initial attention check task
+      
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (const ball of balls) {
+        ball.animate(ctx, canvas);
+      }
+
+      for (let i = 0; i < balls.length; i++) {
+        for (let j = i + 1; j < balls.length; j++) {
+          if (detectCollision(balls[i], balls[j])) {
+            resolveCollision(balls[i], balls[j]);
+          }
+        }
+      }
+
+        if (attentionCheckTask === 1) {
+          task1();
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+
+      updateProgressBar((9 / 18) * 100);
+
+      document.getElementById("proceedToMainTrials2").addEventListener("click", function() {
+        window.location.href = "main_trials_3.html";
+      });
+    });
+
+    function endTask() {
+      // Stop the animation
+      cancelAnimationFrame(animationId);
+
+      // Display a message or hide the canvas (example)
+      const canvas = document.getElementById("attentionCheckCanvas");
+      canvas.style.display = "none";
+      document.getElementById("taskEndMessage").style.display = "block";
+    }
+
+    // Start the task
+    const animationId = requestAnimationFrame(draw);
+
+    // End the task after 20 seconds (20000 milliseconds)
+    setTimeout(endTask, 20000);
+
+  </script>
+
+  <div class="instructions">
+<p>Press the spacebar when two balls collide</p>
+  </div>
+<button id="proceedToMainTrials2">Proceed to Main Trials 2</button>
+  <div class="progress-bar-container">
+    <div id="progressBar" class="progress-bar"></div>
+  </div>
+</body>
+</html>

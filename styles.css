@@ -1,0 +1,199 @@
+body {
+  background-color: #cccccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 80%;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+canvas {
+  border: 1px solid black;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: black;
+  border: 20px solid black; /* Change the border width here */
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+button {
+  margin: 5px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  border: none;
+  background-color: #1a73e8;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1669c1;
+}
+
+button:focus {
+  outline: none;
+}
+
+.progress-container {
+  width: 100%;
+  height: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #1a73e8;
+}
+
+video:focus {
+  outline: none;
+}
+
+/* Add this CSS code to your styles.css file */
+.progress-container {
+  width: 100%;
+  height: 30px;
+  background-color: #f3f3f3;
+  margin-bottom: 20px;
+  border: 1px solid black;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #4caf50;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}
+
+/* results */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.graph-container {
+  flex: 1;
+  padding: 0.5rem;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.video-container.example {
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+.video-container.training {
+  max-width: 70%;
+  margin: 0 auto;
+}
+
+.video-container.main {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.attention-check {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+#title-container {
+  text-align: center;
+}
+
+#instruction-container {
+  text-align: center;
+}
+
+#start-container {
+  text-align: center;
+}
+
+#video-container {
+  text-align: center;
+}
+
+#next-container {
+  text-align: center;
+}
+
+#training-video {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+/* styles.css */
+
+.probe {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.top-left {
+  top: 3000px;
+  left: 3000px;
+}
+
+.top-right {
+  top: 300px;
+  right: 300px;
+}
+
+.bottom-left {
+  bottom: 300px;
+  left: 300px;
+}
+
+.bottom-right {
+  bottom: 300px;
+  right: 300px;
+}

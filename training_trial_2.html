@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training 2</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body style="background-color:grey;">
+  <div class="video-container training" id="trainingVideoContainer" style="width:640px; height:360px;">
+    <video id="trainingVideo" width="640" height="360">
+      <source src="videos/training2-red.mp4" type="video/mp4">
+    </video>
+  </div>
+  <button id="startVideo">Start Video</button>
+<button id="proceedToMainTrialsInstructions" style="display: none;">Proceed to Main Trials</button>
+
+  <script src="data_manager.js"></script>
+  <script>
+    function changeBorderColor(element, color, duration) {
+      element.style.borderColor = color;
+      setTimeout(function () {
+        element.style.borderColor = "black";
+      }, duration);
+    }
+
+    const trainingVideoContainer = document.getElementById("trainingVideoContainer");
+    const trainingVideo = document.getElementById("trainingVideo");
+    const startVideoButton = document.getElementById("startVideo");
+    const proceedToMainTrialsInstructionsButton = document.getElementById("proceedToMainTrialsInstructions");
+
+    startVideoButton.addEventListener("click", function() {
+      trainingVideo.play();
+      startVideoButton.style.display = "none";
+    });
+
+    trainingVideo.addEventListener("ended", function() {
+      proceedToMainTrialsInstructionsButton.style.display = "block";
+    });
+
+    proceedToMainTrialsInstructionsButton.addEventListener("click", function() {
+      window.location.href = "main_trials_instructions.html";
+    });
+
+    document.addEventListener("keydown", function(event) {
+      if (event.code === "Space") {
+        const currentTime = new Date().getTime();
+        const eventTime = trainingVideo.currentTime;
+        console.log("Spacebar pressed at:", eventTime);
+
+        // Record the reaction time, trial ID, video time, relative time, and other necessary data here
+        dataManager.addTrainingTrialData('T2', 'keydown', eventTime);
+        changeBorderColor(trainingVideoContainer, "blue", 200);
+      }
+    });
+
+    document.addEventListener("keyup", function(event) {
+      if (event.code === "Space") {
+        trainingVideoContainer.style.borderColor = "black";
+      }
+    });
+
+  </script>
+</body>
+</html>

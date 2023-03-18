@@ -1,0 +1,84 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attention Check 1</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="data_manager.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+  <h1>Debrief</h1>
+  <p>Here are the results of the experiment:</p>
+
+  <div class="graphs">
+    <div class="row">
+      <div class="graph-container">
+        <canvas id="graphType"></canvas>
+      </div>
+      <div class="graph-container">
+        <canvas id="graphOutcome"></canvas>
+      </div>
+      <div class="graph-container">
+        <canvas id="graphTypeOutcome"></canvas>
+      </div>
+    </div>
+    <div class="row">
+      <div class="graph-container">
+        <canvas id="graphP1"></canvas>
+      </div>
+      <div class="graph-container">
+        <canvas id="graphP2"></canvas>
+      </div>
+      <div class="graph-container">
+        <canvas id="graphP3"></canvas>
+      </div>
+      <div class="graph-container">
+        <canvas id="graphP4"></canvas>
+      </div>
+      <div class="graph-container">
+        <canvas id="graphS1"></canvas>
+      </div>
+      <div class="graph-container">
+        <canvas id="graphS2"></canvas>
+      </div>
+      <div class="graph-container">
+        <canvas id="graphS3"></canvas>
+      </div>
+      <div class="graph-container">
+        <canvas id="graphS4"></canvas>
+      </div>
+      <div class="graph-container">
+        <canvas id="graphS5"></canvas>
+      </div>
+    </div>
+  </div>
+
+    
+  <div class="progress-container">
+  <div id="progressBar" class="progress-bar"></div>
+</div>
+  <script>
+    updateProgressBar((18 / 18) * 100);
+  </script>
+  
+    <button id="viewAttentionCheckResults">View Attention Check Results</button>
+<script>
+  document.getElementById("viewAttentionCheckResults").addEventListener("click", function () {
+    window.location.href = "debrief_2.html";
+  });
+</script>
+
+  </div>
+</body>
+</html>
+
+  
+  <div class="progress-container">
+  <div id="progressBar" class="progress-bar"></div>
+</div>
+  <script>
+    updateProgressBar((4 / 18) * 100);
+  </script>

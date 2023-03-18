@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Main Trials</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="data_manager.js"></script>
+  <script src="common_functions.js"></script>
+</head>
+<style>
+  .video-container {
+    display: inline-block;
+    position: relative;
+    width: 960px;
+    height: 540px;
+    overflow: hidden;
+  }
+</style>
+<body style="background-color:grey;">
+  <div class="video-container" id="mainTrialVideoContainer">
+    <video id="mainTrialVideo" width="1280" height="720">
+      <source src="videos/S3U.mp4" type="video/mp4">
+    </video>
+  </div>
+  <button id="startExperiment">Start Experiment</button>
+  <button id="finishExperiment" style="display: none;">Finish Experiment</button>
+
+  <script>
+    let currentVideoIndex = 0;
+    const mainTrialVideoContainer = document.getElementById("mainTrialVideoContainer");
+    const mainTrialVideo = document.getElementById("mainTrialVideo");
+    const startExperimentButton = document.getElementById("startExperiment");
+    const finishExperimentButton = document.getElementById("finishExperiment");
+    let videoStartTime = 0;
+
+    const mainTrialData = [
+      { trialType: "Social", outcome: "Unexpected", scene: "S3" },
+      { trialType: "Physical", outcome: "Unexpected", scene: "P3" },
+      { trialType: "Social", outcome: "Expected", scene: "S4" },
+      { trialType: "Physical", outcome: "Unexpected", scene: "P2" },
+      { trialType: "Social", outcome: "Expected", scene: "S3" },
+    ];
+
+    document.addEventListener("keydown", function (event) {
+      if (event.code === "Space") {
+        const currentTime = new Date().getTime();
+        console.log("Spacebar pressed at:", currentTime);
+
+        const eventTime = mainTrialVideo.currentTime; // Use the current video time as the event time
+        const reactionTimeDifference = currentTime - eventTime;
+
+        dataManager.addMainTrialData(
+          mainTrialData[currentVideoIndex].trialType,
+          mainTrialData[currentVideoIndex].outcome,
+          mainTrialData[currentVideoIndex].scene,
+          eventTime,
+          reactionTimeDifference
+        );
+        changeBorderColor(mainTrialVideoContainer, "blue", 200);
+      }
+    });
+
+    document.addEventListener("keyup", function (event) {
+      if (event.code === "Space") {
+        mainTrialVideoContainer.style.borderColor = "black";
+        const currentTime = new Date().getTime();
+        const videoTime = mainTrialVideo.currentTime;
+        const relativeTime = currentTime - videoStartTime;
+        const eventTime = mainTrialVideo.currentTime; // Use the current video time as the event time
+        const reactionTimeDifference = currentTime - eventTime;
+
+        dataManager.addMainTrialData(
+          mainTrialData[currentVideoIndex].trialType,
+          mainTrialData[currentVideoIndex].outcome,
+          mainTrialData[currentVideoIndex].scene,
+          eventTime,
+          reactionTimeDifference
+        );
+      }
+    });
+
+    const videoSources = [
+      "videos/S3U.mp4",
+      "videos/P3U.mp4",
+      "videos/S4E.mp4",
+      "videos/P2U.mp4",
+      "videos/S3E.mp4",
+    ];
+
+    mainTrialVideo.src = videoSources[currentVideoIndex];
+
+    mainTrialVideo.addEventListener("playing", function() {
+      videoStartTime = new Date().getTime();
+      console.log("Video started playing at:", videoStartTime);
+      // Record the start time of the video, trial ID, and other necessary data here
+    });
+
+    function nextVideo() {
+      currentVideoIndex++;
+      if (currentVideoIndex >= videoSources.length) {
+currentVideoIndex = 0;
+// Proceed to the next part of the experiment (e.g., main_trials_2.html)
+window.location.href = "attention_check_3.html";
+}
+ mainTrialVideo.src = videoSources[currentVideoIndex];
+  mainTrialVideo.load();
+  mainTrialVideo.play();
+}
+
+mainTrialVideo.addEventListener("ended", function() {
+  console.log("Video ended. Advancing to next video.");
+  nextVideo();
+});
+
+startExperimentButton.addEventListener("click", function() {
+  startExperimentButton.style.display = "none";
+  mainTrialVideo.play();
+});
+
+finishExperimentButton.addEventListener("click", function() {
+  // Perform any necessary actions, such as redirecting the user to a different page
+  console.log("Experiment finished");
+});
+   </script>
+</body>
+</html>   
